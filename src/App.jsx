@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SiTiktok } from "react-icons/si";
 import { FaInstagram, FaMusic } from "react-icons/fa";
@@ -9,14 +9,8 @@ export default function App() {
   }, []);
 
   const [showMusic, setShowMusic] = useState(false);
-  const audioRefs = useRef([]);
-
   const handleMusicClick = () => setShowMusic(true);
-  const handleClose = () => {
-    // Pause all playing audio
-    audioRefs.current.forEach(audio => audio.pause());
-    setShowMusic(false);
-  };
+  const handleClose = () => setShowMusic(false);
 
   const socials = [
     { name: "TikTok", icon: <SiTiktok size={50} />, url: "https://www.tiktok.com/@fast.r6_" },
@@ -24,8 +18,7 @@ export default function App() {
     { name: "Music", icon: <FaMusic size={50} />, url: "#" },
   ];
 
-  // List of your MP3 files (stored in public/audio/)
-  const audioFiles = [
+  const musicFiles = [
     "OHCHA.mp3",
     "PREACHER MAN.mp3",
     "RED EYED BABY.mp3",
@@ -37,58 +30,8 @@ export default function App() {
     "VICTORY .mp3",
     "WE ARE BIRDS.mp3",
     "WHITE LINES.mp3",
-    "ZERO (feat. Travis Scott).mp3",
-    "2 GUNS.mp3",
-    "11 PERCS.mp3",
-    "ALL THE LOVE.mp3",
-    "ALWAYS .mp3",
-    "BEAUTY AND THE BEAST.mp3",
-    "BIANCA.mp3",
-    "BY YOUR SIDE .mp3",
-    "CAN U BE.mp3",
-    "DARK MATTER.mp3",
-    "GLORY.mp3",
-    "HI WYD .m4a",
-    "HIGHS AND LOWS.mp3",
-    "HOLY.m4a",
-    "JARED.m4a",
-    "MELROSE (ft. Playboi Carti, Ty Dolla $ign).mp3",
-    "MY GUT.mp3",
-    "NIGHTS ON THE MOON (feat. Travis Scott).mp3",
-    "OPEN ON MONDAY (ft. Kaycyy).mp3",
-    "PRIDE WIN.mp3",
-    "SAME SHIT (ft Sean Leon).m4a",
-    "SHOWTIME (MY PAIN).mp3",
-    "THE PRESS (feat. Pusha T).mp3",
-    "BIANCAS INTERLUDE.mp3",
-    "BLOCK THE PAIN AWAY (feat. Maleigh Zan).mp3",
-    "BROKEN ROAD (feat. Don Toliver).m4a",
-    "BULLY.mp3",
-    "CAN’T HURRY LOVE.mp3",
-    "CASH COW.mp3",
-    "CIRCLES.mp3",
-    "COSBY.m4a",
-    "DAMN.mp3",
-    "FEAR.mp3",
-    "HIDE YOUR BITCH.mp3",
-    "HIGHSCHOOL ID (skit).mp3",
-    "HIGHSCHOOL ID.mp3",
-    "I LOVE YOU .mp3",
-    "LAST BREATH (Ft. Peso Pluma).mp3",
-    "LOSING YOUR MIND.mp3",
-    "LOVE LOVE LOVE (feat. KayCyy).mp3",
-    "MAMA’S BOYFRIEND.mp3",
-    "MORNING LIGHT (interlude).mp3",
-    "NEW SHIT .mp3"
-  ];
-
-  // Close modal if clicking outside
-  const modalRef = useRef(null);
-  const handleClickOutside = (e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
-      handleClose();
-    }
-  };
+    "ZERO (feat. Travis Scott).mp3"
+  ]; // Add more as needed
 
   return (
     <div className="relative bg-gradient-to-b from-black via-gray-900 to-black text-white min-h-screen w-full font-sans flex flex-col justify-center items-center px-6 overflow-hidden">
@@ -153,29 +96,26 @@ export default function App() {
       {showMusic && (
         <div
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-          onClick={handleClickOutside}
+          onClick={handleClose} // click outside closes modal
         >
           <motion.div
-            ref={modalRef}
-            className="bg-gray-900 p-6 md:p-8 rounded-3xl flex flex-col items-center gap-4 w-80 max-h-[80vh] overflow-y-auto"
+            className="bg-gray-900 p-8 rounded-3xl flex flex-col items-center gap-4 w-80"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
+            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
           >
             <h2 className="text-2xl font-bold mb-4">My Music</h2>
-            <div className="flex flex-col gap-3 w-full">
-              {audioFiles.map((file, idx) => (
-                <audio
-                  key={idx}
-                  controls
-                  ref={(el) => (audioRefs.current[idx] = el)}
-                  className="w-full bg-gray-800 rounded-lg p-1"
-                >
-                  <source src={`/audio/${file}`} type="audio/mpeg" />
-                  Your browser does not support the audio element.
-                </audio>
-              ))}
-            </div>
+
+            {musicFiles.map((file, idx) => (
+              <audio
+                key={idx}
+                controls
+                className="w-full bg-gray-700 text-white rounded-md mb-2"
+              >
+                <source src={`/audio/${file}`} type="audio/mpeg" />
+              </audio>
+            ))}
 
             <button
               className="mt-4 bg-pink-500 hover:bg-pink-400 text-white px-4 py-2 rounded-lg"
