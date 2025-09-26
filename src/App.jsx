@@ -30,8 +30,50 @@ export default function App() {
     "VICTORY .mp3",
     "WE ARE BIRDS.mp3",
     "WHITE LINES.mp3",
-    "ZERO (feat. Travis Scott).mp3"
-  ]; // Add more as needed
+    "ZERO (feat. Travis Scott).mp3",
+    "2 GUNS.mp3",
+    "11 PERCS.mp3",
+    "ALL THE LOVE.mp3",
+    "ALWAYS .mp3",
+    "BEAUTY AND THE BEAST.mp3",
+    "BIANCA.mp3",
+    "BY YOUR SIDE .mp3",
+    "CAN U BE.mp3",
+    "DARK MATTER.mp3",
+    "GLORY.mp3",
+    "HI WYD .m4a",
+    "HIGHS AND LOWS.mp3",
+    "HOLY.m4a",
+    "JARED.m4a",
+    "MELROSE (ft. Playboi Carti, Ty Dolla $ign).mp3",
+    "MY GUT.mp3",
+    "NIGHTS ON THE MOON (feat. Travis Scott).mp3",
+    "OPEN ON MONDAY (ft. Kaycyy).mp3",
+    "PRIDE WIN.mp3",
+    "SAME SHIT (ft Sean Leon).m4a",
+    "SHOWTIME (MY PAIN).mp3",
+    "THE PRESS (feat. Pusha T).mp3",
+    "BIANCAS INTERLUDE.mp3",
+    "BLOCK THE PAIN AWAY (feat. Maleigh Zan).mp3",
+    "BROKEN ROAD (feat. Don Toliver).m4a",
+    "BULLY.mp3",
+    "CAN’T HURRY LOVE.mp3",
+    "CASH COW.mp3",
+    "CIRCLES.mp3",
+    "COSBY.m4a",
+    "DAMN.mp3",
+    "FEAR.mp3",
+    "HIDE YOUR BITCH.mp3",
+    "HIGHSCHOOL ID (skit).mp3",
+    "HIGHSCHOOL ID.mp3",
+    "I LOVE YOU .mp3",
+    "LAST BREATH (Ft. Peso Pluma).mp3",
+    "LOSING YOUR MIND.mp3",
+    "LOVE LOVE LOVE (feat. KayCyy).mp3",
+    "MAMA’S BOYFRIEND.mp3",
+    "MORNING LIGHT (interlude).mp3",
+    "NEW SHIT .mp3"
+  ];
 
   return (
     <div className="relative bg-gradient-to-b from-black via-gray-900 to-black text-white min-h-screen w-full font-sans flex flex-col justify-center items-center px-6 overflow-hidden">
@@ -95,11 +137,11 @@ export default function App() {
       {/* Music Modal */}
       {showMusic && (
         <div
-          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 overflow-auto"
           onClick={handleClose} // click outside closes modal
         >
           <motion.div
-            className="bg-gray-900 p-8 rounded-3xl flex flex-col items-center gap-4 w-80"
+            className="bg-gray-900 p-6 md:p-8 rounded-3xl flex flex-col items-center gap-4 w-80 md:w-96 max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-800"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
@@ -107,15 +149,20 @@ export default function App() {
           >
             <h2 className="text-2xl font-bold mb-4">My Music</h2>
 
-            {musicFiles.map((file, idx) => (
-              <audio
-                key={idx}
-                controls
-                className="w-full bg-gray-700 text-white rounded-md mb-2"
-              >
-                <source src={`/audio/${file}`} type="audio/mpeg" />
-              </audio>
-            ))}
+            {musicFiles.map((file, idx) => {
+              const songName = file.replace(/\.[^/.]+$/, ""); // removes extension
+              return (
+                <div key={idx} className="w-full flex flex-col gap-1">
+                  <span className="text-white font-semibold truncate">{songName}</span>
+                  <audio
+                    controls
+                    className="w-full bg-gray-700 text-white rounded-md"
+                  >
+                    <source src={`/audio/${file}`} type="audio/mpeg" />
+                  </audio>
+                </div>
+              );
+            })}
 
             <button
               className="mt-4 bg-pink-500 hover:bg-pink-400 text-white px-4 py-2 rounded-lg"
